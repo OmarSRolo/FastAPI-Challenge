@@ -1,4 +1,4 @@
-from system.dto import BaseDTO
+from data_layer.dto import BaseDTO
 
 
 class JokeDTO(BaseDTO):
