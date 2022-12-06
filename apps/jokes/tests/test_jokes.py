@@ -55,7 +55,7 @@ async def test_add_joke(client: AsyncClient):
 
 @pytest.mark.anyio
 async def test_update_joke(client: AsyncClient, new_joke: int):
-    response = await client.patch("/api/v1/jokes", data={"id": new_joke, "text": "UPDATING"})
+    response = await client.patch("/api/v1/jokes", data={"number": new_joke, "text": "UPDATING"})
     assert response.json() == {"id": new_joke, "text": "UPDATING"}
     assert response.status_code == 200
     joke = await async_database.fetch_one(select(JokeModel.id, JokeModel.text).where(JokeModel.id == new_joke))
@@ -64,7 +64,7 @@ async def test_update_joke(client: AsyncClient, new_joke: int):
 
 @pytest.mark.anyio
 async def test_delete_joke(client: AsyncClient, new_joke: int):
-    response = await client.delete("/api/v1/jokes", params={"id": new_joke})
+    response = await client.delete("/api/v1/jokes", params={"number": new_joke})
     assert response.json() == {"message": "Joke deleted"}
     assert response.status_code == 200
 
