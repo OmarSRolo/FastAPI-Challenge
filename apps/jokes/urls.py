@@ -11,7 +11,8 @@ router = APIRouter(prefix="/jokes", tags=["Jokes"])
 @router.get("")
 async def get_joke(factory: JokeFactory = Depends(), joke_type: TypeJokeEnum | None = Query(default=None)):
     provider = factory.get_data_provider(joke_type)
-    return await provider.get_joke()
+    joke_from_service = await provider.get_joke()
+    return joke_from_service
 
 
 @router.post("", response_model=JokeIdDTO, status_code=status.HTTP_201_CREATED)
