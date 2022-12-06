@@ -22,18 +22,18 @@ async def add_joke(service: JokeService = Depends(), text: str = Form()):
 
 
 @router.patch("", response_model=JokeIdDTO, status_code=status.HTTP_200_OK)
-async def update_joke(service: JokeService = Depends(), id: int = Form(), text: str = Form()):
-    joke_saved = await service.retrieve(id=id)
+async def update_joke(service: JokeService = Depends(), number: int = Form(), text: str = Form()):
+    joke_saved = await service.retrieve(id=number)
     if joke_saved is None:
         raise HTTPException(status_code=404, detail="Joke not found")
-    await service.update_joke(id=id, text=text)
-    return {"id": id, "text": text}
+    await service.update_joke(id=number, text=text)
+    return {"id": number, "text": text}
 
 
 @router.delete("")
-async def delete_joke(service: JokeService = Depends(), id: int = Query()):
-    joke_saved = await service.retrieve(id=id)
+async def delete_joke(service: JokeService = Depends(), number: int = Query()):
+    joke_saved = await service.retrieve(id=number)
     if joke_saved is None:
         raise HTTPException(status_code=404, detail="Joke not found")
-    await service.delete(id=id)
+    await service.delete(id=number)
     return {"message": "Joke deleted"}
