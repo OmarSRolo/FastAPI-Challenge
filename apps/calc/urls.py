@@ -7,7 +7,7 @@ router = APIRouter(prefix="/calc", tags=["Calc"])
 
 @router.get("/common_multiple")
 def get_common_multiple(service: OperationsService = Depends(), list_numbers: list[int] = Query(...)):
-    return service.obtener_mcm_for(list_numbers)
+    return service.get_mcm_for(list_numbers)
 
 
 @router.get("/add")

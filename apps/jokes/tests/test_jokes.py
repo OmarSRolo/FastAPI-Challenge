@@ -67,5 +67,4 @@ async def test_delete_joke(client: AsyncClient, new_joke: int):
     response = await client.delete("/api/v1/jokes", params={"id": new_joke})
     assert response.json() == {"message": "Joke deleted"}
     assert response.status_code == 200
-    joke = await async_database.fetch_one(select(JokeModel).where(JokeModel.id == new_joke))
 

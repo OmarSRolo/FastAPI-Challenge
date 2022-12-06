@@ -2,20 +2,20 @@ from functools import reduce
 
 
 class OperationsService:
-    def mcm(self, a, b):
+    def mcm(self, a: int, b: int):
         if a > b:
-            mayor_que = a
+            great_than = a
         else:
-            mayor_que = b
+            great_than = b
 
         while True:
-            if mayor_que % a == 0 and mayor_que % b == 0:
-                mcm = mayor_que
+            if great_than % a == 0 and great_than % b == 0:
+                mcm = great_than
                 break
-            mayor_que += 1
+            great_than += 1
 
         return mcm
 
-    def obtener_mcm_for(self, lista_almacenada):
-        mcm = reduce(lambda x, y: self.mcm(x, y), lista_almacenada)
+    def get_mcm_for(self, store_list: list[int]):
+        mcm = reduce(lambda x, y: self.mcm(x, y), store_list)
         return {"result": mcm}
