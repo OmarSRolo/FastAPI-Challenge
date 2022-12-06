@@ -11,7 +11,7 @@ class JokeDAO(IDAO):
     model = JokeModel
 
     async def retrieve(self, **kwargs):
-        return await async_database.fetch_one(select(self.model).filter_by(is_active=False, **kwargs))
+        return await async_database.fetch_one(select(self.model).filter_by(is_active=True, **kwargs))
 
     async def insert(self, **kwargs):
         kwargs["is_active"] = True
@@ -19,7 +19,8 @@ class JokeDAO(IDAO):
         return await async_database.execute(insert(self.model), values=kwargs)
 
     async def delete(self, **kwargs):
-        await async_database.execute(delete(self.model).filter_by(**{"id": kwargs["id"]}))
+        await async_database.execute(delete(self.model).filter_by(**kwargs))
 
     async def update(self, **kwargs):
-        await async_database.execute(update(self.model).filter_by(**{"id": kwargs["id"]}).values(**kwargs))
+        await async_database.execute(
+            update(self.model).filter_by(is_active=True, **{"id": kwargs["id"]}).values(**kwargs))

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Query, Form
+from fastapi import APIRouter, Depends, status, Query, Form, HTTPException
 
 from apps.jokes.dto import JokeIdDTO
 from apps.jokes.enums import TypeJokeEnum
@@ -11,21 +11,28 @@ router = APIRouter(prefix="/jokes", tags=["Jokes"])
 @router.get("")
 async def get_joke(factory: JokeFactory = Depends(), joke_type: TypeJokeEnum | None = Query(default=None)):
     provider = factory.get_data_provider(joke_type)
-    print(joke_type)
     return await provider.get_joke()
 
 
 @router.post("", response_model=JokeIdDTO, status_code=status.HTTP_201_CREATED)
 async def add_joke(service: JokeService = Depends(), joke: str = Form()):
-    _id = await service.new_joke(joke=joke)
-    return {"id": _id, "joke": joke}
+    id_saved = await service.new_joke(joke=joke)
+    return {"id": id_saved, "joke": joke}
 
 
-@router.patch("")
-async def update_joke():
-    return ""
+@router.patch("", response_model=JokeIdDTO, status_code=status.HTTP_200_OK)
+async def update_joke(service: JokeService = Depends(), id: int = Form(), text: str = Form()):
+    joke_saved = await service.retrieve(id=id)
+    if joke_saved is None:
+        raise HTTPException(status_code=404, detail="Joke not found")
+    await service.update_joke(id=id, text=text)
+    return {"id": id, "joke": text}
 
 
 @router.delete("")
-async def delete_joke():
-    return ""
+async def delete_joke(service: JokeService = Depends(), id: int = Query()):
+    joke_saved = await service.retrieve(id=id)
+    if joke_saved is None:
+        raise HTTPException(status_code=404, detail="Joke not found")
+    await service.delete(id=id)
+    return {"message": "Joke deleted"}
