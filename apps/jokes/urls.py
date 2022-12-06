@@ -15,9 +15,9 @@ async def get_joke(factory: JokeFactory = Depends(), joke_type: TypeJokeEnum | N
 
 
 @router.post("", response_model=JokeIdDTO, status_code=status.HTTP_201_CREATED)
-async def add_joke(service: JokeService = Depends(), joke: str = Form()):
-    id_saved = await service.new_joke(joke=joke)
-    return {"id": id_saved, "joke": joke}
+async def add_joke(service: JokeService = Depends(), text: str = Form()):
+    id_saved = await service.new_joke(text=text)
+    return {"id": id_saved, "text": text}
 
 
 @router.patch("", response_model=JokeIdDTO, status_code=status.HTTP_200_OK)
@@ -26,7 +26,7 @@ async def update_joke(service: JokeService = Depends(), id: int = Form(), text: 
     if joke_saved is None:
         raise HTTPException(status_code=404, detail="Joke not found")
     await service.update_joke(id=id, text=text)
-    return {"id": id, "joke": text}
+    return {"id": id, "text": text}
 
 
 @router.delete("")

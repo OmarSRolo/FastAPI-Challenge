@@ -4,7 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from apps.calc import urls as calc_url
 from apps.jokes import urls as jokes_url
-from settings.dev import database, async_database
+from settings.base import database, async_database
 
 app = FastAPI(title="Challenge", default_response_class=UJSONResponse)
 

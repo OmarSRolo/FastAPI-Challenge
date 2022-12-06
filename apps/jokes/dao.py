@@ -4,7 +4,7 @@ from sqlalchemy import select, insert, update, delete
 
 from data_layer.interfaces import IDAO
 from data_layer.model import JokeModel
-from settings.dev import async_database
+from settings.base import async_database
 
 
 class JokeDAO(IDAO):

@@ -2,9 +2,9 @@ from data_layer.dto import BaseDTO
 
 
 class JokeDTO(BaseDTO):
-    joke: str
+    text: str
 
 
 class JokeIdDTO(BaseDTO):
     id: int
-    joke: str
+    text: str

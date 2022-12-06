@@ -9,7 +9,7 @@ class JokeFactory:
             return ChuckDataProvider()
         if job_type == TypeJokeEnum.Dad:
             return CanDataProvider()
-        if job_type == TypeJokeEnum.Random or job_type is None:
+        if job_type is None:
             providers = [ChuckDataProvider(), CanDataProvider()]
             provider = providers[random.randint(0, len(providers) - 1)]
             return provider
